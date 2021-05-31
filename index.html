@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<head>
+
+  <title>Login To Vaccine Map</title>
+
+  <script src="p5.min.js"></script>
+  <script src="p5.dom.min.js"></script>
+  <script src="p5.sound.min.js"></script>
+  <script src="mappa-mundi@0.0.4"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
+    
+  <link rel="stylesheet" type="text/css" href="style.css">
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyDoYLskJqIOa_iKVX3ot97zM1dWLxUABWY",
+    authDomain: "cvd-zone.firebaseapp.com",
+    databaseURL: "https://cvd-zone-default-rtdb.firebaseio.com",
+    projectId: "cvd-zone",
+    storageBucket: "cvd-zone.appspot.com",
+    messagingSenderId: "816503956573",
+    appId: "1:816503956573:web:4fac9c9c100ff012d859b4"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+</head>
+<body style = "  
+justify-content: center;
+background-color: #0084ff;
+color: #FFFFFF;
+font-size: 28px;
+position: absolute;
+">
+
+<center >
+<p>Go To Your Home & Click the button to get your Location.</p>
+
+<p id="demo"></p>
+
+<p id="demo2"></p>
+
+<button class="btn" style="vertical-align : middle"  onclick="getLocation()" >Use My Current Location<span> </span></button>
+
+<p></p>
+
+<div class="Vaccinated-field">
+<label >Are You Vaccinated ? </label>
+  <input style = "height : 20px" class="text" id="vaccinated" type="text"></input>
+  </div>
+  <p></p>
+
+  
+    <div class="input-field">
+    <label class="active" for="address">Enter Your Name Here:- </label>
+    <input style = "height : 20px" class="input_fields materialize-textarea" id="name" type="text"></input>
+    </div>
+    </br>
+
+    <button class="button" style="vertical-align : middle" onClick="allFunction()" >Submit<span> </span></button>
+
+</center>
+
+<script>
+var x = document.getElementById("demo");
+var y = document.getElementById("demo2");
+var VaccineData = document.getElementById("vaccinated");
+var NameData = document.getElementById("name");
+var lat = 0;
+var long = 0;
+var newPostKey = firebase.database().ref().child('posts').push().key;
+var database = firebase.database;
+
+function setup(){
+  var ref = database.ref('names/'+NameData);
+  ref.on('value', gotData, errData);
+
+  database = firebase.database;
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+    y.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  x.innerHTML = position.coords.latitude
+  y.innerHTML = position.coords.longitude;
+  console.log(x.innerHTML + " -lat long- " + y.innerHTML)
+
+}
+
+function Data() {
+    VaccineData = document.getElementById("vaccinated").value;
+    NameData = document.getElementById("name").value;
+    console.log(VaccineData+ " " + NameData)
+}
+
+function allFunction(){
+  Data();
+  writeUserData();
+  
+}
+
+function gotData(data){
+var scores = data.val();
+var keys = Object.keys(scores);
+console.log(keys)
+for (var i = 0; i < keys.length; i++) {
+  var k = keys[i];
+  var initials = scores[k].initials;
+  var score = scores[k].score;
+  console.log(initials, score)
+  }
+}
+  
+function writeUserData() {
+  firebase.database().ref('names/' + NameData).set({
+    latitude: x.innerHTML,
+    longitude: y.innerHTML,
+    vaccinated: VaccineData,
+  });
+}
+
+</script>
+
+<script src="sketch.js"></script>
+
+</body>
+</html>

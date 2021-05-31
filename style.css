@@ -1,0 +1,89 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+canvas {
+  display: block;
+}
+
+.container{
+  width: 50%;
+}
+#map{
+  height: 50vh;
+  margin-bottom: 10px;
+  display: none;
+}
+
+#locationList .card{
+  padding: 10px;
+}
+
+.container{
+  width: 80%;
+    max-width: 800px;
+}
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  font-size: 15px;
+  padding: 25px;
+  width: 180px;
+  height: 20px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  
+}
+
+.button {
+  position: relative;
+  background-color: #4CAF50;
+  border: none;
+  font-size: 22px;
+  color: #FFFFFF;
+  padding: 20px;
+  width: 200px;
+  height : 70px;
+  text-align: center;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button:after {
+  content: "";
+  background: #f1f1f1;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
+.btn {
+  transition-duration: 0.4s;
+  background-color: #0084ff;
+  color: #ffffff;
+  width : 195px;
+  height : 45px;
+}
+
+.btn:hover {
+  background-color: #ff0055; /* Green */
+  color: white;
+}
